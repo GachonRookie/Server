@@ -67,6 +67,7 @@ public class ApplyService {
             // 5. Find ClubRecruit by clubId and gen (assuming a method exists to do this)
             ClubRecruit clubRecruit = clubRecruitRepository.findByClubIdAndGen(clubId, gen);
 
+
             // 6. Assign recruitStartDate and recruitEndDate
             response.setRecruitStartDate(clubRecruit.getRecruitStartDate());
             response.setRecruitEndDate(clubRecruit.getRecruitEndDate());
@@ -102,9 +103,12 @@ public class ApplyService {
                 .nickname(member.getNickname())
                 .scrabClubResponseList(responses)
                 .build();
+    }
 
-
-
+    public void updateStatus(ApplyStatus applyStatus, Long applyId){
+       ClubApply clubApply = clubApplyRepository.findByApplyId(applyId);
+       clubApply.setApplyStatus(applyStatus);
+       clubApplyRepository.save(clubApply);
     }
 }
 

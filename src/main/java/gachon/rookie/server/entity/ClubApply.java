@@ -1,14 +1,10 @@
 package gachon.rookie.server.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import gachon.rookie.server.common.BaseEntity;
 import gachon.rookie.server.common.BaseStatus;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
@@ -17,6 +13,7 @@ import java.time.LocalDateTime;
 @Table(name = "club_apply")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
 public class ClubApply extends BaseEntity {
 
     @Id
