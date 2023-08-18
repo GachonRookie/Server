@@ -5,6 +5,7 @@ import gachon.rookie.server.common.BaseException;
 import io.jsonwebtoken.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -50,7 +51,7 @@ public class JwtUtil {
 
     public String getJwt(){
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        return request.getHeader("ACCESS-TOKEN");
+        return request.getHeader(HttpHeaders.AUTHORIZATION);
     }
 
 

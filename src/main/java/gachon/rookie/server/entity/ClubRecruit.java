@@ -27,6 +27,7 @@ public class ClubRecruit extends BaseEntity {
     @JoinColumn(name = "club_id", referencedColumnName = "club_id", nullable = false)
     private Club clubId;
 
+    //새로운 공고가 올라올때마다 +1
     @Column(name = "gen", nullable = false)
     private Integer gen;
 
