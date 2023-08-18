@@ -16,9 +16,12 @@ public interface ClubApplyRepository extends JpaRepository<ClubApply, Long> {
 
     Optional<ClubApply> findByMemberId(Long memberId);
 
-    @Query("SELECT COUNT(ca) FROM ClubApply ca WHERE ca.clubId = :clubId AND ca.gen = :gen")
+    // In your ClubApplyRepository interface
+    @Query("SELECT COUNT(ca) FROM ClubApply ca JOIN ca.clubId c WHERE c.clubId = :clubId AND ca.gen = :gen")
     int countByClubIdAndGen(@Param("clubId") Long clubId, @Param("gen") Integer gen);
+
     @Query("SELECT COUNT(ca) FROM ClubApply ca WHERE ca.clubId = :clubId AND ca.gen = :gen AND ca.applyStatus = :applyStatus")
     int countByClubIdAndGenAndApplyStatus(@Param("clubId") Long clubId, @Param("gen") Integer gen, @Param("applyStatus") ApplyStatus applyStatus);
 
+    ClubApply findByApplyId(Long id);
 }
