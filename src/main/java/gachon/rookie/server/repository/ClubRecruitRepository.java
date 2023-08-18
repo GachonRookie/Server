@@ -23,4 +23,8 @@ public interface ClubRecruitRepository extends JpaRepository<ClubRecruit, Long> 
     @Query("SELECT cr FROM ClubRecruit cr ORDER BY cr.recruitEndDate ASC")
     Optional<List<ClubRecruit>> findAllOrderByRecruitEndDate();
 
+    @Query("SELECT cr FROM ClubRecruit cr WHERE cr.clubId = :clubId AND cr.gen = :gen")
+    ClubRecruit findByClubIdAndGen(@Param("clubId") Long clubId, @Param("gen") Integer gen);
+
+
 }
