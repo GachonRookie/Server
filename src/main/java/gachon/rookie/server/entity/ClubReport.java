@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 @Table(name = "club_report")
 public class ClubReport extends BaseEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "report_id", nullable = false)
     private Long reportId;
     @ManyToOne(fetch = FetchType.LAZY)

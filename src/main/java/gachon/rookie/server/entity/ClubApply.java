@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class ClubApply extends BaseEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "apply_id", nullable = false)
     private Long applyId;
     @ManyToOne(fetch = FetchType.LAZY)

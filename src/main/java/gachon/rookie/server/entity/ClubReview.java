@@ -9,7 +9,7 @@ import lombok.Builder;
 public class ClubReview extends BaseEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id", nullable = false)
     private Long reviewId;
 

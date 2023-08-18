@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 public class ClubScrap extends BaseEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "scrap_id", nullable = false)
     private Long scrapId;
 

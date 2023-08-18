@@ -10,7 +10,7 @@ import java.time.LocalDate;
 public class ClubMember extends BaseEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "club_member_id")
     private Long clubMemberId;
 
