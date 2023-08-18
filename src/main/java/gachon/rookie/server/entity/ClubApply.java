@@ -31,6 +31,7 @@ public class ClubApply extends BaseEntity {
     @Column(name = "gen", nullable = false)
     private Integer gen;
 
+    //활동 종료일
     @Column(name = "end_date", nullable = false)
     private LocalDateTime endDate;
 }
