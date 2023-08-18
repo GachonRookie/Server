@@ -14,4 +14,7 @@ public class Member {
     @Column(name = "user_id", unique = true, nullable = false)
     private String userId;
 
+    @Column(name = "type", nullable = false)
+    private MemberType type;
+
 }
