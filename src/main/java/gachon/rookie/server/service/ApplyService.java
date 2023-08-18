@@ -33,7 +33,7 @@ public class ApplyService {
         this.jwtUtil = jwtUtil;
     }
     @Transactional
-    public GetMyPageResponse getMyPage(String jwt) throws BaseException {
+    public GetMyPageResponse getMyPage() throws BaseException {
 
         String userToken = String.valueOf(jwtUtil.getUserIdx(jwtUtil.getJwt()));
 
