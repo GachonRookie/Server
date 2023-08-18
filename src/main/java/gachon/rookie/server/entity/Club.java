@@ -20,6 +20,9 @@ public class Club extends BaseEntity {
     @Column(name = "club_id")
     private Long clubId;
 
+    @Column(name = "club_name", nullable = false)
+    private String clubName;
+
     //교내인지 연합인지
     @Column(name = "club_tag")
     private ClubTag clubTag;
@@ -37,9 +40,10 @@ public class Club extends BaseEntity {
     private String logoUrl;
 
     @Builder
-    public Club(LocalDateTime createdAt, LocalDateTime updatedAt, BaseStatus status, Long clubId, ClubTag clubTag, String adContent, String snsLink, String logoUrl) {
+    public Club(LocalDateTime createdAt, LocalDateTime updatedAt, BaseStatus status, Long clubId, String clubName, ClubTag clubTag, String adContent, String snsLink, String logoUrl) {
         super(createdAt, updatedAt, status);
         this.clubId = clubId;
+        this.clubName = clubName;
         this.clubTag = clubTag;
         this.adContent = adContent;
         this.snsLink = snsLink;
