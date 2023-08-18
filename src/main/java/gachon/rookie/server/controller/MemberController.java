@@ -7,11 +7,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "MemberController")
+@Tag(name = "멤버")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/member")
@@ -26,8 +27,8 @@ public class MemberController {
             @ApiResponse(responseCode = "404"),
             @ApiResponse(responseCode = "500")
     })
-    @PostMapping("/login")
-    public JwtResponse login(String userToken) {
+    @PostMapping("/login/{userToken}")
+    public JwtResponse login(@PathVariable String userToken) {
         return new JwtResponse(jwtUtil.createToken(userToken), jwtUtil.createRefreshToken());
     }
 

@@ -23,8 +23,7 @@ public class JwtUtil {
     public String createToken(String userIdx) {
 
         Date now = new Date();
-        Date expireDate = new Date(System.currentTimeMillis()*600000*6);
-
+        Date expireDate = new Date(System.currentTimeMillis()+600000*6);
 
         return Jwts.builder()
                 .setHeaderParam("type", "jwt")
