@@ -4,9 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.MappedSuperclass;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -34,4 +32,10 @@ public class BaseEntity {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private BaseStatus status;
+
+    public BaseEntity(LocalDateTime createdAt, LocalDateTime updatedAt, BaseStatus status) {
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.status = status;
+    }
 }

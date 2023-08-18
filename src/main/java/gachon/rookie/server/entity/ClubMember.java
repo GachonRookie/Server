@@ -1,12 +1,20 @@
 package gachon.rookie.server.entity;
 
 import gachon.rookie.server.common.BaseEntity;
+import gachon.rookie.server.common.BaseStatus;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "club_member")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ClubMember extends BaseEntity {
 
     @Id
@@ -27,4 +35,14 @@ public class ClubMember extends BaseEntity {
 
     @Column(name = "activeEndDate", nullable = false)
     private LocalDate activeEndDate;
+
+    @Builder
+    public ClubMember(LocalDateTime createdAt, LocalDateTime updatedAt, BaseStatus status, Long clubMemberId, Club clubId, Member memberId, Integer gen, LocalDate activeEndDate) {
+        super(createdAt, updatedAt, status);
+        this.clubMemberId = clubMemberId;
+        this.clubId = clubId;
+        this.memberId = memberId;
+        this.gen = gen;
+        this.activeEndDate = activeEndDate;
+    }
 }

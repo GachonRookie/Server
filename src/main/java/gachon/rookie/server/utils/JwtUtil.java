@@ -15,12 +15,12 @@ import java.util.Date;
 public class JwtUtil {
 
     @Value("${jwt.secret-key}")
-    private static String jwtKey;
+    private String jwtKey;
 
     /**
      * Jwt Token 생성 메서드
      * */
-    public static String createToken(Long userIdx) {
+    public String createToken(Long userIdx) {
 
         Date now = new Date();
         Date expireDate = new Date(System.currentTimeMillis()*600000*6);
@@ -38,7 +38,7 @@ public class JwtUtil {
     /**
      * Refresh Token 생성 매서드
      * */
-    public static String createRefreshToken() {
+    public String createRefreshToken() {
         Date now = new Date();
         Date refreshExpireDate = new Date(System.currentTimeMillis()*600000*6*24);
         return Jwts.builder()

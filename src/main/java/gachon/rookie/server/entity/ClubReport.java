@@ -1,10 +1,19 @@
 package gachon.rookie.server.entity;
 
 import gachon.rookie.server.common.BaseEntity;
+import gachon.rookie.server.common.BaseStatus;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "club_report")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ClubReport extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,4 +29,14 @@ public class ClubReport extends BaseEntity {
     private String content;
     @Column(name = "image_url", nullable = false, columnDefinition = "TEXT")
     private String imageUrl;
+
+    @Builder
+    public ClubReport(LocalDateTime createdAt, LocalDateTime updatedAt, BaseStatus status, Long reportId, Member memberId, Club clubId, String content, String imageUrl) {
+        super(createdAt, updatedAt, status);
+        this.reportId = reportId;
+        this.memberId = memberId;
+        this.clubId = clubId;
+        this.content = content;
+        this.imageUrl = imageUrl;
+    }
 }
