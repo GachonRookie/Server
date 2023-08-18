@@ -35,7 +35,7 @@ public class ClubController {
      * */
     @Operation(summary = "메인 동아리 상세 API", description = "메인 페이지에서 동아리 터치했을때 나오는 상세 페이지")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "400", description = "대상 동아리가 존재하지 않습니다. | 동아리 모집이 존재하지 않습니다.",
+            @ApiResponse(responseCode = "404", description = "대상 동아리가 존재하지 않습니다. | 동아리 모집이 존재하지 않습니다.",
                     content = @Content(schema = @Schema(implementation = BaseResponse.class))),
             @ApiResponse(responseCode = "500", description = "Unexpected Error",
                     content = @Content(schema = @Schema(implementation = BaseResponse.class))),
@@ -52,7 +52,7 @@ public class ClubController {
      * */
     @Operation(summary = "동아리 지원(찜) API", description = "동아리 모의 지원 API")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "400", description = "대상 동아리가 존재하지 않습니다. | 동아리 모집이 존재하지 않습니다. | 유저가 존재하지 않습니다.",
+            @ApiResponse(responseCode = "404", description = "대상 동아리가 존재하지 않습니다. | 동아리 모집이 존재하지 않습니다. | 유저가 존재하지 않습니다.",
                     content = @Content(schema = @Schema(implementation = BaseResponse.class))),
             @ApiResponse(responseCode = "409", description = "이미 지원한 동아리 입니다.",
                     content = @Content(schema = @Schema(implementation = BaseResponse.class))),
@@ -76,13 +76,25 @@ public class ClubController {
     /**
      * 동아리 등록
      * */
+    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    public BaseResponse<PostClubRes> postClub(@RequestBody PostClubReq req) throws BaseException {
+        //Jwt Validation
+
+        return new BaseResponse<>(clubService.postClub(req));
+    }
 
     /**
      * 문의/등록 동아리 상세
      * */
-
+    @Operation(summary = "문의/등록 동아리 상세 API", description = "문의/등록 동아리 상세 API")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "404", description = "대상 동아리가 존재하지 않습니다. | 리포트가 존재하지 않습니다. | 동아리 모집이 존재하지 않습니다.",
+                    content = @Content(schema = @Schema(implementation = BaseResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Unexpected Error",
+                    content = @Content(schema = @Schema(implementation = BaseResponse.class))),
+    })
     @GetMapping(value = "/register/detail", produces = MediaType.APPLICATION_JSON_VALUE)
-    public BaseResponse<GetRegisterDetailRes> getReports(@RequestParam("club-id") Long clubId) throws BaseException {
+    public BaseResponse<GetRegisterDetailRes> getReports(@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt, @RequestParam("club-id") Long clubId) throws BaseException {
         //TODO Jwt Validation
 
         return new BaseResponse<>(clubService.getReports(clubId));
@@ -92,7 +104,7 @@ public class ClubController {
      * */
     @Operation(summary = "동아리 리포트 작성 API", description = "동아리 리포트 작성 API")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "400", description = "대상 동아리가 존재하지 않습니다. | 유저가 존재하지 않습니다.",
+            @ApiResponse(responseCode = "404", description = "대상 동아리가 존재하지 않습니다. | 유저가 존재하지 않습니다.",
                     content = @Content(schema = @Schema(implementation = BaseResponse.class))),
             @ApiResponse(responseCode = "500", description = "Unexpected Error",
                     content = @Content(schema = @Schema(implementation = BaseResponse.class))),

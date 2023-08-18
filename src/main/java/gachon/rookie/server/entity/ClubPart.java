@@ -34,7 +34,7 @@ public class ClubPart extends BaseEntity {
 
     @JsonBackReference
     @ManyToOne()
-    @JoinColumn(name = "recruit_id", referencedColumnName = "recruit_id", nullable = false)
+    @JoinColumn(name = "recruit_id", referencedColumnName = "recruit_id")
     private ClubRecruit recruitId;
 
     @Builder

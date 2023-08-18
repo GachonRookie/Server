@@ -39,6 +39,9 @@ public class Club extends BaseEntity {
     @Column(name = "logo_url", columnDefinition = "TEXT")
     private String logoUrl;
 
+    public void updateStatusToInvalid() {
+        this.setStatus(BaseStatus.INACTIVE);
+    }
     @Builder
     public Club(LocalDateTime createdAt, LocalDateTime updatedAt, BaseStatus status, Long clubId, String clubName, ClubTag clubTag, String adContent, String snsLink, String logoUrl) {
         super(createdAt, updatedAt, status);
