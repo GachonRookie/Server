@@ -20,7 +20,7 @@ public class JwtUtil {
     /**
      * Jwt Token 생성 메서드
      * */
-    public String createToken(Long userIdx) {
+    public String createToken(String userIdx) {
 
         Date now = new Date();
         Date expireDate = new Date(System.currentTimeMillis()*600000*6);
