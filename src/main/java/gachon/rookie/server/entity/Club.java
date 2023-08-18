@@ -20,23 +20,27 @@ public class Club extends BaseEntity {
     @Column(name = "club_id")
     private Long clubId;
 
-    @Column(name = "club_type")
-    private ClubType clubType;
+    //교내인지 연합인지
+    @Column(name = "club_tag")
+    private ClubTag clubTag;
 
+    //홍보글
     @Column(name = "ad_content", columnDefinition = "TEXT")
     private String adContent;
 
+    //지원 링크
     @Column(name = "sns_link", columnDefinition = "TEXT")
     private String snsLink;
 
+    //동아리 로고 url
     @Column(name = "logo_url", columnDefinition = "TEXT")
     private String logoUrl;
 
     @Builder
-    public Club(LocalDateTime createdAt, LocalDateTime updatedAt, BaseStatus status, Long clubId, ClubType clubType, String adContent, String snsLink, String logoUrl) {
+    public Club(LocalDateTime createdAt, LocalDateTime updatedAt, BaseStatus status, Long clubId, ClubTag clubTag, String adContent, String snsLink, String logoUrl) {
         super(createdAt, updatedAt, status);
         this.clubId = clubId;
-        this.clubType = clubType;
+        this.clubTag = clubTag;
         this.adContent = adContent;
         this.snsLink = snsLink;
         this.logoUrl = logoUrl;

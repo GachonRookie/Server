@@ -1,5 +1,7 @@
 package gachon.rookie.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import gachon.rookie.server.common.BaseEntity;
 import gachon.rookie.server.common.BaseStatus;
 import jakarta.persistence.*;
@@ -22,6 +24,7 @@ public class ClubApply extends BaseEntity {
     @Column(name = "apply_id", nullable = false)
     private Long applyId;
 
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", referencedColumnName = "member_id", nullable = false)
     private Member memberId;
@@ -38,18 +41,17 @@ public class ClubApply extends BaseEntity {
     @Column(name = "gen", nullable = false)
     private Integer gen;
 
-    //활동 종료일
-    @Column(name = "end_date", nullable = false)
-    private LocalDateTime endDate;
+    @Column(name = "apply_part", nullable = false)
+    private String applyPart;
 
     @Builder
-    public ClubApply(LocalDateTime createdAt, LocalDateTime updatedAt, BaseStatus status, Long applyId, Member memberId, Club clubId, ApplyStatus applyStatus, Integer gen, LocalDateTime endDate) {
+    public ClubApply(LocalDateTime createdAt, LocalDateTime updatedAt, BaseStatus status, Long applyId, Member memberId, Club clubId, ApplyStatus applyStatus, Integer gen, String applyPart) {
         super(createdAt, updatedAt, status);
         this.applyId = applyId;
         this.memberId = memberId;
         this.clubId = clubId;
         this.applyStatus = applyStatus;
         this.gen = gen;
-        this.endDate = endDate;
+        this.applyPart = applyPart;
     }
 }
