@@ -18,4 +18,10 @@ public interface ClubRepository extends JpaRepository<Club, Long> {
     Optional<Club> findByIdWhereStatusActive(Long clubId);
 
     Club findClubByClubId(Long id);
+
+    @Query("select count(c) from Club c where (c.status = 'ACTIVE' or c.status = 'INACTIVE') and c.clubName = :clubName")
+    Integer preValidClubExist(String clubName);
+
+    @Query("select count(c) from Club c where c.status = 'DELETE' and c.clubName = :clubName")
+    Integer preClubExist(String clubName);
 }

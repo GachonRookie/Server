@@ -22,16 +22,17 @@ public class ClubService {
     private final ClubRecruitRepository recruitRepository;
     private final MemberRepository memberRepository;
     private final ClubApplyRepository applyRepository;
-
     private final ClubReportRepository reportRepository;
+    private final ClubPartRepository partRepository;
 
     @Autowired
-    public ClubService(ClubRepository clubRepository, ClubRecruitRepository recruitRepository, MemberRepository memberRepository, ClubApplyRepository applyRepository, ClubReportRepository reportRepository) {
+    public ClubService(ClubRepository clubRepository, ClubRecruitRepository recruitRepository, MemberRepository memberRepository, ClubApplyRepository applyRepository, ClubReportRepository reportRepository, ClubPartRepository partRepository) {
         this.clubRepository = clubRepository;
         this.recruitRepository = recruitRepository;
         this.memberRepository = memberRepository;
         this.applyRepository = applyRepository;
         this.reportRepository = reportRepository;
+        this.partRepository = partRepository;
     }
 
     /**
@@ -106,11 +107,49 @@ public class ClubService {
      * */
 
     /**
-     * 동아리 등록
+     * 동아리 등록 - Service
      * */
+    @Transactional
+    public PostClubRes postClub(PostClubReq req) throws BaseException {
 
+        Integer preValidClubExist = clubRepository.preValidClubExist(req.getClubName());
+        log.info(preValidClubExist.toString());
+        if(preValidClubExist > 0) throw new BaseException(BaseErrorCode.CLUB_EXIST);
+        //동아리 빌드
+        Club club = Club.builder()
+                .clubName(req.getClubName())
+                .clubTag( (req.getClubType() == 0) ? ClubTag.INTERNAL : ClubTag.UNION)
+                .adContent(req.getContent())
+                .snsLink(req.getApplyLink())
+                .build();
+        //동아리 상태 Invalid 로 바꾸기
+        club.updateStatusToInvalid();
+
+        //저장
+        clubRepository.save(club);
+
+        Integer preClubExist = clubRepository.preClubExist(club.getClubName());
+
+        int clubGen = 0;
+
+        if(preClubExist != 0) clubGen = preClubExist + 1;
+
+        List<String> parts = req.getPartList();
+
+        for (String part : parts) {
+            partRepository.save(
+                    ClubPart.builder()
+                    .clubId(club)
+                    .gen(clubGen)
+                    .partName(part)
+                    .build()
+            );
+        }
+
+        return new PostClubRes("동아리 추가에 성공하였습니다.");
+    }
     /**
-     * 문의/등록 동아리 상세
+     * 문의/등록 동아리 상세 - Service
      * */
     @Transactional
     public GetRegisterDetailRes getReports(Long req) throws BaseException {
@@ -175,4 +214,6 @@ public class ClubService {
         return new PostReportRes("작성에 성공하였습니다.");
 
     }
+
+
 }

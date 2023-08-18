@@ -20,6 +20,7 @@ public enum BaseErrorCode {
 
     //409
     APPLY_EXIST(HttpStatus.CONFLICT, "이미 지원한 동아리 입니다."),
+    CLUB_EXIST(HttpStatus.CONFLICT, "이미 동아리가 존재합니다."),
     //500
     JWT_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "JWT ERROR"),
     DATABASE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Database Error"),
