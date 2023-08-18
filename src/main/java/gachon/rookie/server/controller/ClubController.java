@@ -44,7 +44,7 @@ public class ClubController {
     })
     @GetMapping(value = "/main/detail", produces = MediaType.APPLICATION_JSON_VALUE)
     public BaseResponse<GetMainClubDetailRes> getMainClubDetail(@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt, @RequestParam("club-id") Long clubId) throws BaseException {
-        String memberIdx = jwtUtil.getUserIdx(jwt);
+        String memberIdx = jwtUtil.getUserIdx(jwtUtil.getJwt());
         clubService.checkMemberValid(memberIdx);
 
         return new BaseResponse<>(clubService.getMainClubDetail(clubId));
@@ -67,10 +67,10 @@ public class ClubController {
     @PostMapping(value = "/apply", produces = MediaType.APPLICATION_JSON_VALUE)
     public BaseResponse<PostApplyRes> postApplyToClub(@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt, @RequestBody PostApplyReq req) throws BaseException {
 
-        String memberIdx = jwtUtil.getUserIdx(jwt);
+        String memberIdx = jwtUtil.getUserIdx(jwtUtil.getJwt());
         clubService.checkMemberValid(memberIdx);
 
-        String userToken = jwtUtil.getUserIdx(jwt);
+        String userToken = jwtUtil.getUserIdx(jwtUtil.getJwt());
 
         return new BaseResponse<>(clubService.postApplyToClub(req, userToken));
     }
@@ -88,7 +88,7 @@ public class ClubController {
     })
     @GetMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
     public BaseResponse<GetClubListRes> getClubList(@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt) throws BaseException {
-        String memberIdx = jwtUtil.getUserIdx(jwt);
+        String memberIdx = jwtUtil.getUserIdx(jwtUtil.getJwt());
         clubService.checkMemberValid(memberIdx);
 
         return new BaseResponse<>(clubService.getClubList());
@@ -109,7 +109,7 @@ public class ClubController {
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public BaseResponse<PostClubRes> postClub(@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt, @RequestBody PostClubReq req) throws BaseException {
         //Jwt Validation
-        String memberIdx = jwtUtil.getUserIdx(jwt);
+        String memberIdx = jwtUtil.getUserIdx(jwtUtil.getJwt());
         clubService.checkMemberValid(memberIdx);
 
         return new BaseResponse<>(clubService.postClub(req));
@@ -129,7 +129,7 @@ public class ClubController {
     })
     @GetMapping(value = "/register/detail", produces = MediaType.APPLICATION_JSON_VALUE)
     public BaseResponse<GetRegisterDetailRes> getReports(@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt, @RequestParam("club-id") Long clubId) throws BaseException {
-        String memberIdx = jwtUtil.getUserIdx(jwt);
+        String memberIdx = jwtUtil.getUserIdx(jwtUtil.getJwt());
         clubService.checkMemberValid(memberIdx);
 
         return new BaseResponse<>(clubService.getReports(clubId));
@@ -148,10 +148,10 @@ public class ClubController {
     })
     @PostMapping(value = "/report", produces = MediaType.APPLICATION_JSON_VALUE)
     public BaseResponse<PostReportRes> postReport(@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt, @RequestBody PostReportReq req) throws BaseException {
-        String memberIdx = jwtUtil.getUserIdx(jwt);
+        String memberIdx = jwtUtil.getUserIdx(jwtUtil.getJwt());
         clubService.checkMemberValid(memberIdx);
 
-        String userToken = jwtUtil.getUserIdx(jwt);
+        String userToken = jwtUtil.getUserIdx(jwtUtil.getJwt());
 
         return new BaseResponse<>(clubService.postReport(req, userToken));
     }

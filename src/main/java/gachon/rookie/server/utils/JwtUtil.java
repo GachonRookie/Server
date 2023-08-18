@@ -51,7 +51,7 @@ public class JwtUtil {
     public String getJwt(){
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 
-        return request.getHeader(HttpHeaders.AUTHORIZATION).split(" ")[1];
+        return request.getHeader(HttpHeaders.AUTHORIZATION);
     }
 
 

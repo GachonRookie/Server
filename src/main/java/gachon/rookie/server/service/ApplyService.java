@@ -35,7 +35,7 @@ public class ApplyService {
     @Transactional
     public GetMyPageResponse getMyPage() throws BaseException {
 
-        String userToken = String.valueOf(jwtUtil.getUserIdx(jwtUtil.getJwt()));
+        String userToken = jwtUtil.getUserIdx(jwtUtil.getJwt());
 
         member = memberRepository.findByUserToken(userToken).orElse(null);
 
@@ -60,7 +60,7 @@ public class ApplyService {
             response.setLogoUrl(club.getLogoUrl());
             response.setClubTag(club.getClubTag());
             response.setClubName(club.getClubName());
-
+            response.setApplyPart(apply.getApplyPart());
             // 4. Get gen and clubId from apply
             Integer gen = apply.getGen();
 
@@ -98,6 +98,7 @@ public class ApplyService {
 
             responses.add(response);
         }
+
 
         return GetMyPageResponse.builder()
                 .nickname(member.getNickname())

@@ -31,4 +31,6 @@ public class ScrabClubResponse {
     // 3. 그중 ApplyStatus가 PASS인 것의 개수를 센다
     private int lastPassNumber;
     private int lastApplyTotalNumber;
+
+    private String applyPart;
 }
