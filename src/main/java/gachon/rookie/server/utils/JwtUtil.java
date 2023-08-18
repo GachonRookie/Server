@@ -5,6 +5,7 @@ import gachon.rookie.server.common.BaseException;
 import io.jsonwebtoken.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -49,7 +50,7 @@ public class JwtUtil {
 
     public String getJwt(){
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        return request.getHeader("ACCESS-TOKEN");
+        return request.getHeader(HttpHeaders.AUTHORIZATION).split(" ")[1];
     }
 
 
@@ -71,7 +72,7 @@ public class JwtUtil {
     /**
      * userIdx 추출
      * @return int */
-    public Long getUserIdx(String accessToken) throws BaseException{
+    public String getUserIdx(String accessToken) throws BaseException{
         // JWT 가져오기
         if(accessToken == null || accessToken.length() == 0){
             throw new BaseException(BaseErrorCode.JWT_NOT_EXIST);
@@ -84,7 +85,7 @@ public class JwtUtil {
     /**
      * Jwt 파싱해서 userIdx를 리턴하는 메서드
      * */
-    public Long parseJwt(String accessToken) throws BaseException{
+    public String parseJwt(String accessToken) throws BaseException{
         Jws<Claims> claimsJws;
         try{
             claimsJws = Jwts.parser()
@@ -95,6 +96,6 @@ public class JwtUtil {
         }
 
         //Return userIdx
-        return claimsJws.getBody().get("userIdx", Long.class);
+        return claimsJws.getBody().get("userIdx", String.class);
     }
 }
