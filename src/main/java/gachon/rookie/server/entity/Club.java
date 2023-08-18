@@ -23,9 +23,6 @@ public class Club extends BaseEntity {
     @Column(name = "club_type")
     private ClubType clubType;
 
-    @Column(name = "sub_type")
-    private ClubSubType clubSubType;
-
     @Column(name = "ad_content", columnDefinition = "TEXT")
     private String adContent;
 
@@ -36,11 +33,10 @@ public class Club extends BaseEntity {
     private String logoUrl;
 
     @Builder
-    public Club(LocalDateTime createdAt, LocalDateTime updatedAt, BaseStatus status, Long clubId, ClubType clubType, ClubSubType clubSubType, String adContent, String snsLink, String logoUrl) {
+    public Club(LocalDateTime createdAt, LocalDateTime updatedAt, BaseStatus status, Long clubId, ClubType clubType, String adContent, String snsLink, String logoUrl) {
         super(createdAt, updatedAt, status);
         this.clubId = clubId;
         this.clubType = clubType;
-        this.clubSubType = clubSubType;
         this.adContent = adContent;
         this.snsLink = snsLink;
         this.logoUrl = logoUrl;
