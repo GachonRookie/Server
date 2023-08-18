@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 public enum BaseErrorCode {
     //400
     JWT_NOT_EXIST(HttpStatus.BAD_REQUEST, "JWT 존재하지 않음"),
+    JWT_INVALID(HttpStatus.BAD_REQUEST, "유효한 JWT가 아닙니다."),
 
     //404
     CLUB_NOT_EXIST(HttpStatus.NOT_FOUND, "대상 동아리가 존재하지 않습니다."),

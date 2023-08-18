@@ -5,6 +5,7 @@ import gachon.rookie.server.common.BaseException;
 import gachon.rookie.server.dto.*;
 import gachon.rookie.server.entity.*;
 import gachon.rookie.server.repository.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -105,7 +107,85 @@ public class ClubService {
     /**
      * 문의/등록 페이지 API
      * */
+    public GetClubListRes getClubList() {
+        List<ClubBlock> innerActiveList = new ArrayList<>();
+        List<ClubBlock> innerNewList = new ArrayList<>();
+        List<ClubBlock> innerEndList = new ArrayList<>();
+        List<ClubBlock> outerActiveList = new ArrayList<>();
+        List<ClubBlock> outerNewList = new ArrayList<>();
+        List<ClubBlock> outerEndList = new ArrayList<>();
 
+        List<Club> clubs = clubRepository.findAll();
+
+        for (Club club : clubs) {
+            String clubTag = club.getClubTag().toString();
+
+            ClubBlock block = ClubBlock.builder()
+                    .clubId(club.getClubId())
+                    .clubName(club.getClubName())
+                    .build();
+
+            if(clubTag.equals("INTERNAL")){
+                switch (club.getStatus()){
+                    case ACTIVE -> innerActiveList.add(block);
+                    case INACTIVE -> innerNewList.add(block);
+                    case DELETE -> innerEndList.add(block);
+                }
+            }
+            else{
+                switch (club.getStatus()){
+                    case ACTIVE -> outerActiveList.add(block);
+                    case INACTIVE -> outerNewList.add(block);
+                    case DELETE -> outerEndList.add(block);
+                }
+            }
+        }
+
+        return GetClubListRes.builder()
+                .innerActiveList(
+                        ClubCluster.builder()
+                                .typeTag("INTERNAL")
+                                .statusTag("ACTIVE")
+                                .clubs(innerActiveList)
+                                .build()
+                )
+                .innerNewList(
+                        ClubCluster.builder()
+                            .   typeTag("INTERNAL")
+                                .statusTag("INACTIVE")
+                                .clubs(innerNewList)
+                                .build()
+                )
+                .innerEndList(
+                        ClubCluster.builder()
+                                .typeTag("INTERNAL")
+                                .statusTag("DELETE")
+                                .clubs(innerEndList)
+                                .build()
+                )
+                .outerActiveList(
+                        ClubCluster.builder()
+                                .typeTag("UNION")
+                                .statusTag("ACTIVE")
+                                .clubs(outerActiveList)
+                                .build()
+                )
+                .outerNewList(
+                        ClubCluster.builder()
+                                .typeTag("UNION")
+                                .statusTag("INACTIVE")
+                                .clubs(outerNewList)
+                                .build()
+                )
+                .outerEndList(
+                        ClubCluster.builder()
+                                .typeTag("UNION")
+                                .statusTag("DELETE")
+                                .clubs(outerEndList)
+                                .build()
+                )
+                .build();
+    }
     /**
      * 동아리 등록 - Service
      * */
@@ -213,6 +293,12 @@ public class ClubService {
 
         return new PostReportRes("작성에 성공하였습니다.");
 
+    }
+
+
+    public void checkMemberValid(String memberIdx) throws BaseException{
+        Member member = memberRepository.findByUserToken(memberIdx)
+                .orElseThrow(() -> new BaseException(BaseErrorCode.JWT_INVALID));
     }
 
 

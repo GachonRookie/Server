@@ -91,7 +91,7 @@ public class JwtUtil {
         try{
             claimsJws = Jwts.parser()
                     .setSigningKey(jwtKey)
-                    .parseClaimsJws(accessToken);
+                    .parseClaimsJws(accessToken.split(" ")[1]);
         } catch (SignatureException exception){
             throw new BaseException(BaseErrorCode.JWT_ERROR);
         }

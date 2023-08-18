@@ -35,14 +35,17 @@ public class ClubController {
      * */
     @Operation(summary = "메인 동아리 상세 API", description = "메인 페이지에서 동아리 터치했을때 나오는 상세 페이지")
     @ApiResponses(value = {
+            @ApiResponse(responseCode = "400", description = "유효한 JWT가 아닙니다.",
+                    content = @Content(schema = @Schema(implementation = BaseResponse.class))),
             @ApiResponse(responseCode = "404", description = "대상 동아리가 존재하지 않습니다. | 동아리 모집이 존재하지 않습니다.",
                     content = @Content(schema = @Schema(implementation = BaseResponse.class))),
-            @ApiResponse(responseCode = "500", description = "Unexpected Error",
+            @ApiResponse(responseCode = "500", description = "Unexpected Error | JWT ERROR",
                     content = @Content(schema = @Schema(implementation = BaseResponse.class))),
     })
     @GetMapping(value = "/main/detail", produces = MediaType.APPLICATION_JSON_VALUE)
-    public BaseResponse<GetMainClubDetailRes> getMainClubDetail(@RequestParam("club-id") Long clubId) throws BaseException {
-        //TODO Jwt Validation
+    public BaseResponse<GetMainClubDetailRes> getMainClubDetail(@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt, @RequestParam("club-id") Long clubId) throws BaseException {
+        String memberIdx = jwtUtil.getUserIdx(jwt);
+        clubService.checkMemberValid(memberIdx);
 
         return new BaseResponse<>(clubService.getMainClubDetail(clubId));
 
@@ -52,18 +55,22 @@ public class ClubController {
      * */
     @Operation(summary = "동아리 지원(찜) API", description = "동아리 모의 지원 API")
     @ApiResponses(value = {
+            @ApiResponse(responseCode = "400", description = "유효한 JWT가 아닙니다.",
+                    content = @Content(schema = @Schema(implementation = BaseResponse.class))),
             @ApiResponse(responseCode = "404", description = "대상 동아리가 존재하지 않습니다. | 동아리 모집이 존재하지 않습니다. | 유저가 존재하지 않습니다.",
                     content = @Content(schema = @Schema(implementation = BaseResponse.class))),
             @ApiResponse(responseCode = "409", description = "이미 지원한 동아리 입니다.",
                     content = @Content(schema = @Schema(implementation = BaseResponse.class))),
-            @ApiResponse(responseCode = "500", description = "Unexpected Error",
+            @ApiResponse(responseCode = "500", description = "Unexpected Error | JWT ERROR",
                     content = @Content(schema = @Schema(implementation = BaseResponse.class))),
     })
     @PostMapping(value = "/apply", produces = MediaType.APPLICATION_JSON_VALUE)
     public BaseResponse<PostApplyRes> postApplyToClub(@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt, @RequestBody PostApplyReq req) throws BaseException {
-        //TODO Jwt Validation and userToken Extract
 
-        String userToken = "test";
+        String memberIdx = jwtUtil.getUserIdx(jwt);
+        clubService.checkMemberValid(memberIdx);
+
+        String userToken = jwtUtil.getUserIdx(jwt);
 
         return new BaseResponse<>(clubService.postApplyToClub(req, userToken));
     }
@@ -72,13 +79,38 @@ public class ClubController {
     /**
      * 문의/등록 페이지 API
      * */
+    @Operation(summary = "문의/등록 페이지 API", description = "문의/등록 페이지 API")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "400", description = "유효한 JWT가 아닙니다.",
+                    content = @Content(schema = @Schema(implementation = BaseResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Unexpected Error | JWT ERROR",
+                    content = @Content(schema = @Schema(implementation = BaseResponse.class))),
+    })
+    @GetMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
+    public BaseResponse<GetClubListRes> getClubList(@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt) throws BaseException {
+        String memberIdx = jwtUtil.getUserIdx(jwt);
+        clubService.checkMemberValid(memberIdx);
+
+        return new BaseResponse<>(clubService.getClubList());
+    }
 
     /**
      * 동아리 등록
      * */
+    @Operation(summary = "동아리 등록 API", description = "동아리 등록 API")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "400", description = "유효한 JWT가 아닙니다.",
+                    content = @Content(schema = @Schema(implementation = BaseResponse.class))),
+            @ApiResponse(responseCode = "409", description = "이미 동아리가 존재합니다.",
+                    content = @Content(schema = @Schema(implementation = BaseResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Unexpected Error | JWT ERROR",
+                    content = @Content(schema = @Schema(implementation = BaseResponse.class))),
+    })
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public BaseResponse<PostClubRes> postClub(@RequestBody PostClubReq req) throws BaseException {
+    public BaseResponse<PostClubRes> postClub(@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt, @RequestBody PostClubReq req) throws BaseException {
         //Jwt Validation
+        String memberIdx = jwtUtil.getUserIdx(jwt);
+        clubService.checkMemberValid(memberIdx);
 
         return new BaseResponse<>(clubService.postClub(req));
     }
@@ -88,14 +120,17 @@ public class ClubController {
      * */
     @Operation(summary = "문의/등록 동아리 상세 API", description = "문의/등록 동아리 상세 API")
     @ApiResponses(value = {
+            @ApiResponse(responseCode = "400", description = "유효한 JWT가 아닙니다.",
+                    content = @Content(schema = @Schema(implementation = BaseResponse.class))),
             @ApiResponse(responseCode = "404", description = "대상 동아리가 존재하지 않습니다. | 리포트가 존재하지 않습니다. | 동아리 모집이 존재하지 않습니다.",
                     content = @Content(schema = @Schema(implementation = BaseResponse.class))),
-            @ApiResponse(responseCode = "500", description = "Unexpected Error",
+            @ApiResponse(responseCode = "500", description = "Unexpected Error | JWT ERROR",
                     content = @Content(schema = @Schema(implementation = BaseResponse.class))),
     })
     @GetMapping(value = "/register/detail", produces = MediaType.APPLICATION_JSON_VALUE)
     public BaseResponse<GetRegisterDetailRes> getReports(@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt, @RequestParam("club-id") Long clubId) throws BaseException {
-        //TODO Jwt Validation
+        String memberIdx = jwtUtil.getUserIdx(jwt);
+        clubService.checkMemberValid(memberIdx);
 
         return new BaseResponse<>(clubService.getReports(clubId));
     }
@@ -104,16 +139,19 @@ public class ClubController {
      * */
     @Operation(summary = "동아리 리포트 작성 API", description = "동아리 리포트 작성 API")
     @ApiResponses(value = {
+            @ApiResponse(responseCode = "400", description = "유효한 JWT가 아닙니다.",
+                    content = @Content(schema = @Schema(implementation = BaseResponse.class))),
             @ApiResponse(responseCode = "404", description = "대상 동아리가 존재하지 않습니다. | 유저가 존재하지 않습니다.",
                     content = @Content(schema = @Schema(implementation = BaseResponse.class))),
-            @ApiResponse(responseCode = "500", description = "Unexpected Error",
+            @ApiResponse(responseCode = "500", description = "Unexpected Error | JWT ERROR",
                     content = @Content(schema = @Schema(implementation = BaseResponse.class))),
     })
     @PostMapping(value = "/report", produces = MediaType.APPLICATION_JSON_VALUE)
     public BaseResponse<PostReportRes> postReport(@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt, @RequestBody PostReportReq req) throws BaseException {
-        //TODO Jwt Validation and userToken Extract
+        String memberIdx = jwtUtil.getUserIdx(jwt);
+        clubService.checkMemberValid(memberIdx);
 
-        String userToken = "test";
+        String userToken = jwtUtil.getUserIdx(jwt);
 
         return new BaseResponse<>(clubService.postReport(req, userToken));
     }
