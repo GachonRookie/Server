@@ -23,7 +23,7 @@ public class ClubRecruit extends BaseEntity {
     @Column(name = "recruit_id", nullable = false)
     private Long recruitId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "club_id", referencedColumnName = "club_id", nullable = false)
     private Club clubId;
 
@@ -52,7 +52,7 @@ public class ClubRecruit extends BaseEntity {
     private LocalDate activityEndDate;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "recruitId")
+    @OneToMany(mappedBy = "recruitId", fetch = FetchType.EAGER)
     private List<ClubPart> parts;
 
     @Builder

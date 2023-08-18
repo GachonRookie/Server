@@ -21,11 +21,10 @@ public class JwtUtil {
     /**
      * Jwt Token 생성 메서드
      * */
-    public String createToken(Long userIdx) {
+    public String createToken(String userIdx) {
 
         Date now = new Date();
-        Date expireDate = new Date(System.currentTimeMillis()*600000*6);
-
+        Date expireDate = new Date(System.currentTimeMillis()+600000*6);
 
         return Jwts.builder()
                 .setHeaderParam("type", "jwt")
@@ -51,7 +50,8 @@ public class JwtUtil {
 
     public String getJwt(){
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        return request.getHeader(HttpHeaders.AUTHORIZATION);
+
+        return request.getHeader(HttpHeaders.AUTHORIZATION).split(" ")[1];
     }
 
 
@@ -73,7 +73,7 @@ public class JwtUtil {
     /**
      * userIdx 추출
      * @return int */
-    public Long getUserIdx(String accessToken) throws BaseException{
+    public String getUserIdx(String accessToken) throws BaseException{
         // JWT 가져오기
         if(accessToken == null || accessToken.length() == 0){
             throw new BaseException(BaseErrorCode.JWT_NOT_EXIST);
@@ -86,7 +86,7 @@ public class JwtUtil {
     /**
      * Jwt 파싱해서 userIdx를 리턴하는 메서드
      * */
-    public Long parseJwt(String accessToken) throws BaseException{
+    public String parseJwt(String accessToken) throws BaseException{
         Jws<Claims> claimsJws;
         try{
             claimsJws = Jwts.parser()
@@ -97,6 +97,6 @@ public class JwtUtil {
         }
 
         //Return userIdx
-        return claimsJws.getBody().get("userIdx", Long.class);
+        return claimsJws.getBody().get("userIdx", String.class);
     }
 }

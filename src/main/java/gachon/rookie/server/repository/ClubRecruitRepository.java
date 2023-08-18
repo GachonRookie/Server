@@ -19,4 +19,8 @@ public interface ClubRecruitRepository extends JpaRepository<ClubRecruit, Long> 
            @Param("clubId") Club clubId,
            Pageable limitOne
     );
+
+    @Query("SELECT cr FROM ClubRecruit cr ORDER BY cr.recruitEndDate ASC")
+    Optional<List<ClubRecruit>> findAllOrderByRecruitEndDate();
+
 }

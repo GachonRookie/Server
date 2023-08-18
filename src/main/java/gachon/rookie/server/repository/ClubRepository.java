@@ -1,5 +1,6 @@
 package gachon.rookie.server.repository;
 
+import ch.qos.logback.core.net.server.Client;
 import gachon.rookie.server.entity.Club;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,4 +16,6 @@ public interface ClubRepository extends JpaRepository<Club, Long> {
      * */
     @Query(value = "select c from Club c where c.clubId = :clubId and c.status = 'ACTIVE'")
     Optional<Club> findByIdWhereStatusActive(Long clubId);
+
+    Club findClubByClubId(Long id);
 }

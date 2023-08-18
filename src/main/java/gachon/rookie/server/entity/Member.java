@@ -1,7 +1,6 @@
 package gachon.rookie.server.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import gachon.rookie.server.common.BaseEntity;
 import gachon.rookie.server.common.BaseStatus;
 import jakarta.persistence.*;

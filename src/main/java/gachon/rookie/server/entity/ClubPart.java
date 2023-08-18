@@ -33,7 +33,7 @@ public class ClubPart extends BaseEntity {
     private String partName;
 
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "recruit_id", referencedColumnName = "recruit_id", nullable = false)
     private ClubRecruit recruitId;
 
