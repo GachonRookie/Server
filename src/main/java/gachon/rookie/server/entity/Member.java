@@ -1,5 +1,7 @@
 package gachon.rookie.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import gachon.rookie.server.common.BaseEntity;
 import gachon.rookie.server.common.BaseStatus;
 import jakarta.persistence.*;
@@ -9,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "member")
@@ -21,17 +24,22 @@ public class Member extends BaseEntity {
     @Column(name = "member_id")
     private Long memberId;
 
-    @Column(name = "user_id", unique = true, nullable = false)
-    private String userId;
+    @Column(name = "user_token", unique = true, nullable = false)
+    private String userToken;
 
-    @Column(name = "type", nullable = false)
-    private MemberType type;
+    @Column(name = "nickname", nullable = false)
+    private String nickname;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "memberId")
+    private List<ClubApply> clubApplies;
 
     @Builder
-    public Member(LocalDateTime createdAt, LocalDateTime updatedAt, BaseStatus status, Long memberId, String userId, MemberType type) {
+    public Member(LocalDateTime createdAt, LocalDateTime updatedAt, BaseStatus status, Long memberId, String userToken, String nickname, List<ClubApply> clubApplies) {
         super(createdAt, updatedAt, status);
         this.memberId = memberId;
-        this.userId = userId;
-        this.type = type;
+        this.userToken = userToken;
+        this.nickname = nickname;
+        this.clubApplies = clubApplies;
     }
 }
