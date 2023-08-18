@@ -5,9 +5,10 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum MemberType {
-    USER("유저"),
-    ADMIN("관리자");
+public enum ReviewType {
+
+    APPLY("지원후기"),
+    ACTIVITY("활동후기");
 
     private String statusKo;
 }

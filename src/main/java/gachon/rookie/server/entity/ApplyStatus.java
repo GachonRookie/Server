@@ -5,9 +5,10 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum MemberType {
-    USER("유저"),
-    ADMIN("관리자");
+public enum ApplyStatus {
+    PASS("합격"),
+    FAIL("불합격"),
+    STANDBY("지원중");
 
     private String statusKo;
 }

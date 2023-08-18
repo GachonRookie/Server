@@ -1,10 +1,11 @@
 package gachon.rookie.server.entity;
 
+import gachon.rookie.server.common.BaseEntity;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "member")
-public class Member {
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue
