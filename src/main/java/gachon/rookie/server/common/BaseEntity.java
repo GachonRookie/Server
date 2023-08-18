@@ -36,6 +36,6 @@ public class BaseEntity {
     public BaseEntity(LocalDateTime createdAt, LocalDateTime updatedAt, BaseStatus status) {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.status = status;
+        this.status = BaseStatus.ACTIVE;
     }
 }

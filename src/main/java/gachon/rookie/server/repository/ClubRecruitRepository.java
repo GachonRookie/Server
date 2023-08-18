@@ -16,8 +16,8 @@ public interface ClubRecruitRepository extends JpaRepository<ClubRecruit, Long> 
 
     @Query(value = "select cr from ClubRecruit cr where cr.clubId = :clubId and cr.status = 'ACTIVE' order by cr.createdAt desc")
     Optional<List<ClubRecruit>> findByClubId(
-            @Param("clubId") Club clubId,
-            Pageable limitOne
+           @Param("clubId") Club clubId,
+           Pageable limitOne
     );
 
     @Query("SELECT cr FROM ClubRecruit cr ORDER BY cr.recruitEndDate ASC")
